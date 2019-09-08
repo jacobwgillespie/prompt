@@ -1,0 +1,42 @@
+{
+  "name": "@jacobwgillespie/prompt",
+  "version": "0.1.0",
+  "description": "Custom prompt for zsh, fish, and bash",
+  "author": {
+    "name": "Jacob Gillespie",
+    "email": "jacobwgillespie@gmail.com"
+  },
+  "homepage": "https://github.com/jacobwgillespie/prompt",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jacobwgillespie/prompt.git"
+  },
+  "license": "MIT",
+  "bin": {
+    "prompt": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "ncc build src/index.ts",
+    "package": "pkg --targets node12-macos-x64 ."
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/ansi-styles": "^3.2.1",
+    "@zeit/ncc": "^0.20.4",
+    "ansi-styles": "^4.1.0",
+    "execa": "^2.0.4",
+    "pkg": "^4.4.0",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.2"
+  }
+}
