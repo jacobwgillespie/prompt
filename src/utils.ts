@@ -53,21 +53,24 @@ export async function renderPrompt(style: 'prompt' | 'sections' | 'ps2', section
   }
 }
 
-const binaryLocation = process.execPath
-const zshInit = `
+export async function initPrompt(shell: string, binaryPath: string) {
+  switch (shell) {
+    case 'zsh':
+      return console.log(
+        `
 custom_prompt() {
   exit_code="$?"
   echo ""
-  ${binaryLocation} left zsh
-  ${binaryLocation} prompt zsh $exit_code
+  ${binaryPath} left zsh
+  ${binaryPath} prompt zsh $exit_code
 }
 
 custom_rprompt() {
-  ${binaryLocation} right zsh
+  ${binaryPath} right zsh
 }
 
 custom_ps2() {
-  ${binaryLocation} ps2 zsh
+  ${binaryPath} ps2 zsh
 }
 
 PROMPT='$(custom_prompt)'
@@ -81,13 +84,17 @@ present() {
     unset PROMPT_PRESENTATION_MODE
   fi
 }
-`.trim()
-const bashInit = `
+      `.trim(),
+      )
+
+    case 'bash':
+      return console.log(
+        `
 custom_prompt() {
   exit_code="$?"
   echo ""
-  PS1=$(printf "%s %s\\n%s" "$(${binaryLocation} left bash)" "$(${binaryLocation} right bash)" "$(${binaryLocation} prompt bash $exit_code)")
-  PS2=$(${binaryLocation} ps2 bash)
+  PS1=$(printf "%s %s\\n%s" "$(${binaryPath} left bash)" "$(${binaryPath} right bash)" "$(${binaryPath} prompt bash $exit_code)")
+  PS2=$(${binaryPath} ps2 bash)
 }
 PROMPT_COMMAND=custom_prompt
 
@@ -98,18 +105,21 @@ present() {
     unset PROMPT_PRESENTATION_MODE
   fi
 }
+      `.trim(),
+      )
 
-`.trim()
-const fishInit = `
+    case 'fish':
+      return console.log(
+        `
 function fish_prompt
   set last_exit $status
   echo ""
-  ${binaryLocation} left fish
-  ${binaryLocation} prompt fish $last_exit
+  ${binaryPath} left fish
+  ${binaryPath} prompt fish $last_exit
 end
 
 function fish_right_prompt
-  ${binaryLocation} right fish
+  ${binaryPath} right fish
 end
 
 function present
@@ -119,18 +129,8 @@ function present
     set -X PROMPT_PRESENTATION_MODE "1"
   end
 end
-`.trim()
-
-export async function initPrompt(shell: string) {
-  switch (shell) {
-    case 'zsh':
-      return console.log(zshInit)
-
-    case 'bash':
-      return console.log(bashInit)
-
-    case 'fish':
-      return console.log(fishInit)
+      `.trim(),
+      )
 
     default:
       throw new Error(`Unknown shell: ${shell}`)

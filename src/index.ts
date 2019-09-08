@@ -1,5 +1,3 @@
-process.env.FORCE_COLOR = 'true'
-
 import {Sections} from './types'
 import {initPrompt, renderPrompt} from './utils'
 
@@ -7,7 +5,7 @@ const presentationMode = Boolean(process.env.PROMPT_PRESENTATION_MODE)
 const PROMPT: Sections = presentationMode ? ['directory'] : ['directory', 'gitBranch', 'gitStatus']
 const RPROMPT: Sections = presentationMode ? [] : ['kubernetes', 'node']
 
-async function run() {
+export async function run(binaryPath: string) {
   switch (process.argv[2]) {
     case 'prompt': {
       return await renderPrompt('prompt')
@@ -26,14 +24,10 @@ async function run() {
     }
 
     case 'init': {
-      return await initPrompt(process.argv[3])
+      return await initPrompt(process.argv[3], binaryPath)
     }
 
     default:
       return
   }
 }
-
-run().catch(() => {
-  process.exit(1)
-})
