@@ -60,7 +60,6 @@ export async function initPrompt(shell: string, binaryPath: string) {
         `
 custom_prompt() {
   exit_code="$?"
-  echo ""
   ${binaryPath} left zsh
   ${binaryPath} prompt zsh $exit_code
 }
@@ -73,7 +72,8 @@ custom_ps2() {
   ${binaryPath} ps2 zsh
 }
 
-PROMPT='$(custom_prompt)'
+PROMPT='
+$(custom_prompt)'
 RPROMPT='$(custom_rprompt)'
 PS2='$(custom_ps2)'
 
@@ -92,8 +92,7 @@ present() {
         `
 custom_prompt() {
   exit_code="$?"
-  echo ""
-  PS1=$(printf "%s %s\\n%s" "$(${binaryPath} left bash)" "$(${binaryPath} right bash)" "$(${binaryPath} prompt bash $exit_code)")
+  PS1=$(printf "\\n%s %s\\n%s" "$(${binaryPath} left bash)" "$(${binaryPath} right bash)" "$(${binaryPath} prompt bash $exit_code)")
   PS2=$(${binaryPath} ps2 bash)
 }
 PROMPT_COMMAND=custom_prompt
