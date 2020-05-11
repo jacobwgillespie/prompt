@@ -1,6 +1,6 @@
 {
   "name": "@jacobwgillespie/prompt",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Custom prompt for zsh, fish, and bash",
   "author": {
     "name": "Jacob Gillespie",
