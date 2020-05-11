@@ -20,7 +20,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "ncc build src/index.ts"
+    "build": "ncc build src/index.ts",
+    "clean": "rm -rf dist"
   },
   "prettier": {
     "bracketSpacing": false,
