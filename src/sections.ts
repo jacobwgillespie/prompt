@@ -8,10 +8,7 @@ export async function directory() {
   const cwd = process.cwd()
   const home = os.homedir()
   const normalizedPath = cwd.startsWith(home) ? cwd.replace(new RegExp(`^${escapeForRegex(home)}`), '~') : cwd
-  const shortPath = normalizedPath
-    .split(path.sep)
-    .slice(-3)
-    .join(path.sep)
+  const shortPath = normalizedPath.split(path.sep).slice(-3).join(path.sep)
   return color(ansiStyles.blue, shortPath)
 }
 

@@ -44,8 +44,8 @@ export async function renderPrompt(style: 'prompt' | 'sections' | 'ps2', section
       return console.log(color(ansiStyles.yellow, promptChar))
 
     case 'sections':
-      const promptParts = await Promise.all(sectionNames.map(section => sections[section]()))
-      const prompt = promptParts.filter(part => part !== '')
+      const promptParts = await Promise.all(sectionNames.map((section) => sections[section]()))
+      const prompt = promptParts.filter((part) => part !== '')
       return console.log(color(ansiStyles.bold, prompt.join(' ')))
 
     default:
